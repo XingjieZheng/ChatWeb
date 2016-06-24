@@ -7,6 +7,8 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static websocket.MessageBean.FIELD_AND_VAULE_SECURITY_KEY;
+
 /**
  * Created by xj
  * on 2016/6/21.
@@ -56,24 +58,40 @@ public class ChatWebSocket {
                     } else {
                         userWebSocketMap.put(messageBean.getSenderUserId(), this);
                     }
+                    sendMessage("connect successfully!");
                     System.out.println("base message come from user(" + userId + ")");
-                } else {
+                } else if (messageBean.isNormalMessage()) {
                     ChatWebSocket receiverWebSocket = userWebSocketMap.get(messageBean.getReceiverUserId());
+
+                    if (message.contains(FIELD_AND_VAULE_SECURITY_KEY)) {
+                        message = message.replace(FIELD_AND_VAULE_SECURITY_KEY, "");
+                    }
+
                     if (receiverWebSocket != null) {
                         receiverWebSocket.sendMessage(message);
                         System.out.println("User(" + userId + ") send " + message + " to user(" + messageBean.getReceiverUserId() + ") successfully.");
                     } else {
+                        sendMessage("receiver (userId:" + messageBean.getReceiverUserId() + ") does not connect to the server!");
                         System.out.println("error: receiver (userId:" + messageBean.getReceiverUserId() + ") does not connect to the server!");
                     }
+                } else {
+                    printErrorMessage();
                 }
+            } else {
+                printErrorMessage();
             }
         } catch (Exception e) {
-            System.out.println("error message!");
+            e.printStackTrace();
+            printErrorMessage();
         }
     }
 
-    private void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    private void sendMessage(String message) {
+        try {
+            this.session.getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static synchronized int getOnlineCount() {
@@ -86,5 +104,11 @@ public class ChatWebSocket {
 
     private static synchronized void subOnlineCount() {
         ChatWebSocket.onlineCount--;
+    }
+
+    private void printErrorMessage() {
+        String errorMessage = "error message!";
+        System.out.println(errorMessage);
+        sendMessage(errorMessage);
     }
 }

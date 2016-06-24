@@ -13,7 +13,7 @@ import java.util.Map;
 public class GetHttpSessionConfigurator extends ServerEndpointConfig.Configurator {
 
     private static final String HOST = "host";
-    static final String REMOTE_ADDRESS_AND_PORT = "remote_address_and_port";
+    private static final String REMOTE_ADDRESS_AND_PORT = "remote_address_and_port";
 
     @Override
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
@@ -29,6 +29,15 @@ public class GetHttpSessionConfigurator extends ServerEndpointConfig.Configurato
                 }
                 break;
             }
+        }
+    }
+
+    @Override
+    public boolean checkOrigin(String originHeaderValue) {
+        if (originHeaderValue == null || originHeaderValue.trim().length() == 0) {
+            return true;
+        } else {
+            return super.checkOrigin(originHeaderValue);
         }
     }
 }
