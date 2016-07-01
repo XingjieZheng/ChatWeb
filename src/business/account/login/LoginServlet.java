@@ -1,9 +1,12 @@
 package business.account.login;
 
+import business.account.User;
 import framework.BaseBean;
+import framework.BaseCookiesServlet;
 import framework.BaseServlet;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,17 +27,22 @@ public class LoginServlet extends BaseServlet {
         String account = getParamValue(req, PARAM_ACCOUNT);
         String password = getParamValue(req, PARAM_PASSWORD);
 
-        if ("13713709078".equals(account) && "123456".equals(password)) {
+        if (account != null && "123456".equals(password)) {
+            String userId = "111";
+            Cookie cookieUserId = new Cookie(BaseCookiesServlet.COOKIE_USER_ID, userId);
+            Cookie token = new Cookie(BaseCookiesServlet.COOKIE_TOKEN, "fefjitkogj24950frg4jgp4jgm4gg");
+            resp.addCookie(cookieUserId);
+            resp.addCookie(token);
+
             AccountLoginBean accountLoginBean = new AccountLoginBean();
-            accountLoginBean.setAccountName("13713709078");
-            accountLoginBean.setRememberPassword(true);
-            AccountLoginBean.Data data = new AccountLoginBean.Data();
-            data.setAvatar("http://coffeephoto.yuanlai.com/private/u/36cd/154d8c110fa.jpg");
-            data.setGender(2);
-            data.setNickName("bingbing");
-            data.setUserId(1);
-            accountLoginBean.setData(data);
+            User user = new User(userId);
+            user.setAvatar("http://coffeephoto.yuanlai.com/private/u/36cd/154d8c110fa.jpg");
+            user.setGender(2);
+            user.setUserName("bing");
+            accountLoginBean.setUser(user);
+            accountLoginBean.setAccount(account);
             accountLoginBean.setStatus(BaseBean.STATUS_SUCCESS);
+            accountLoginBean.setRememberPassword(true);
             accountLoginBean.setMsg("Login successfully!");
             printWrite(resp, accountLoginBean);
         } else {
