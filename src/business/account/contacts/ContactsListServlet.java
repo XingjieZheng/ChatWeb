@@ -22,9 +22,9 @@ public class ContactsListServlet extends BaseCookiesServlet {
         if (getUserInfo(req)) {
             ContactsListBean contactsListBean = new ContactsListBean();
             ArrayList<User> users = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 15; i++) {
                 User user = new User((i + 100) + "");
-                user.setAvatar("http://coffeephoto.yuanlai.com/private/u/36cd/154d8c110fa.jpg");
+                user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
                 user.setGender(i % 2);
                 user.setUserName("user" + user.getUserId());
                 users.add(user);
