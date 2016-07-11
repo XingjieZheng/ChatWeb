@@ -4,6 +4,14 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>business.account.login.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/account/login.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ContactsListServlet</servlet-name>
         <servlet-class>business.account.contacts.ContactsListServlet</servlet-class>
     </servlet>
@@ -11,13 +19,12 @@
         <servlet-name>ContactsListServlet</servlet-name>
         <url-pattern>/contacts/getContacts.do</url-pattern>
     </servlet-mapping>
-
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>business.account.login.LoginServlet</servlet-class>
+        <servlet-name>MessageListServlet</servlet-name>
+        <servlet-class>business.message.MessageListServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/account/login.do</url-pattern>
+        <servlet-name>MessageListServlet</servlet-name>
+        <url-pattern>/message/getMessage.do</url-pattern>
     </servlet-mapping>
 </web-app>
