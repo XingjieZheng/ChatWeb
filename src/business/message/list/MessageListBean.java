@@ -1,6 +1,7 @@
-package business.message;
+package business.message.list;
 
 
+import business.message.Message;
 import framework.BaseBean;
 
 import java.io.Serializable;

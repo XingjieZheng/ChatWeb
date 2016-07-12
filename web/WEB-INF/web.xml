@@ -21,10 +21,18 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>MessageListServlet</servlet-name>
-        <servlet-class>business.message.MessageListServlet</servlet-class>
+        <servlet-class>business.message.list.MessageListServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MessageListServlet</servlet-name>
         <url-pattern>/message/getMessage.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ConversationServlet</servlet-name>
+        <servlet-class>business.message.conversation.ConversationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConversationServlet</servlet-name>
+        <url-pattern>/message/getConversation.do</url-pattern>
     </servlet-mapping>
 </web-app>

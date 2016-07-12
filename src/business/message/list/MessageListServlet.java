@@ -1,6 +1,7 @@
-package business.message;
+package business.message.list;
 
 import business.account.User;
+import business.message.Message;
 import framework.BaseCookiesServlet;
 
 import javax.servlet.ServletException;
@@ -26,7 +27,7 @@ public class MessageListServlet extends BaseCookiesServlet {
                 message.setContent("Hello, boy!");
                 message.setTime(System.currentTimeMillis());
                 message.setUnReadCount(i % 2 + 1);
-                User user = new User(String.valueOf(i + 11));
+                User user = new User(String.valueOf(i + 100000));
                 user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
                 user.setGender(i % 2);
                 user.setUserName("user" + user.getUserId());
