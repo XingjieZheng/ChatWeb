@@ -24,7 +24,7 @@ public class ConversationServlet extends BaseCookiesServlet {
         if (getUserInfo(req) && theOtherUserId != null) {
             MessageListBean messageListBean = new MessageListBean();
             ArrayList<Message> messages = new ArrayList<>();
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < 2; i++) {
                 Message message = new Message(String.valueOf(i + 1));
                 User user;
                 if (i % 2 == 0) {
