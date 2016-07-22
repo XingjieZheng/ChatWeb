@@ -18,10 +18,10 @@ public class ChatWebSocket {
 
     private static int onlineCount = 0;
 
-    private static HashMap<Integer, ChatWebSocket> userWebSocketMap = new HashMap<>();
+    private static HashMap<String, ChatWebSocket> userWebSocketMap = new HashMap<>();
 
     private Session session;
-    private int userId;
+    private String userId;
 
     @OnOpen
     public void onOpen(Session session) {

@@ -13,8 +13,8 @@ public class MessageBean {
     private static final int TYPE_REGISTER_MESSAGE = 1;
     public static final String FIELD_AND_VAULE_SECURITY_KEY = "\"securityKey\":\"" + Constants.WEB_SOCKET_SECURITY_KEY + "\",";
 
-    private int senderUserId;
-    private int receiverUserId;
+    private String senderUserId;
+    private String receiverUserId;
     private String message;
     private int type;
     private String securityKey;
@@ -24,26 +24,26 @@ public class MessageBean {
     }
 
     public boolean isNormalMessage() {
-        return senderUserId != 0 && receiverUserId != 0 && message != null && type == TYPE_NORMAL_MESSAGE;
+        return senderUserId != null && receiverUserId != null && message != null && type == TYPE_NORMAL_MESSAGE;
     }
 
     public boolean isRegisterMessage() {
-        return senderUserId != 0 && type == TYPE_REGISTER_MESSAGE;
+        return senderUserId != null && type == TYPE_REGISTER_MESSAGE;
     }
 
-    public int getReceiverUserId() {
+    public String getReceiverUserId() {
         return receiverUserId;
     }
 
-    public void setReceiverUserId(int receiverUserId) {
+    public void setReceiverUserId(String receiverUserId) {
         this.receiverUserId = receiverUserId;
     }
 
-    public int getSenderUserId() {
+    public String getSenderUserId() {
         return senderUserId;
     }
 
-    public void setSenderUserId(int senderUserId) {
+    public void setSenderUserId(String senderUserId) {
         this.senderUserId = senderUserId;
     }
 
