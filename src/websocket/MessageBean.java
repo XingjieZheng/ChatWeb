@@ -11,13 +11,22 @@ public class MessageBean {
 
     private static final int TYPE_NORMAL_MESSAGE = 0;
     private static final int TYPE_REGISTER_MESSAGE = 1;
-    public static final String FIELD_AND_VAULE_SECURITY_KEY = "\"securityKey\":\"" + Constants.WEB_SOCKET_SECURITY_KEY + "\",";
+    public static final String FIELD_AND_VALUE_IN_SECURITY_KEY = "\"securityKey\":\"" + Constants.WEB_SOCKET_SECURITY_KEY + "\",";
 
     private String senderUserId;
     private String receiverUserId;
     private String message;
     private int type;
     private String securityKey;
+    private long time;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     public boolean isDataValid() {
         return Constants.WEB_SOCKET_SECURITY_KEY.equals(securityKey);

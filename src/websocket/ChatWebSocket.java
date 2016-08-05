@@ -7,7 +7,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static websocket.MessageBean.FIELD_AND_VAULE_SECURITY_KEY;
+import static websocket.MessageBean.FIELD_AND_VALUE_IN_SECURITY_KEY;
 
 /**
  * Created by xj
@@ -61,14 +61,16 @@ public class ChatWebSocket {
                     sendMessage("connect successfully!");
                     System.out.println("base message come from user(" + userId + ")");
                 } else if (messageBean.isNormalMessage()) {
+                    messageBean.setTime(System.currentTimeMillis());
                     ChatWebSocket receiverWebSocket = userWebSocketMap.get(messageBean.getReceiverUserId());
 
-                    if (message.contains(FIELD_AND_VAULE_SECURITY_KEY)) {
-                        message = message.replace(FIELD_AND_VAULE_SECURITY_KEY, "");
+                    String sendMessageJson = gson.toJson(messageBean);
+                    if (sendMessageJson.contains(FIELD_AND_VALUE_IN_SECURITY_KEY)) {
+                        sendMessageJson = sendMessageJson.replace(FIELD_AND_VALUE_IN_SECURITY_KEY, "");
                     }
 
                     if (receiverWebSocket != null) {
-                        receiverWebSocket.sendMessage(message);
+                        receiverWebSocket.sendMessage(sendMessageJson);
                         System.out.println("User(" + userId + ") send " + message + " to user(" + messageBean.getReceiverUserId() + ") successfully.");
                     } else {
                         sendMessage("receiver (userId:" + messageBean.getReceiverUserId() + ") does not connect to the server!");
