@@ -18,6 +18,7 @@ public class BaseServlet extends HttpServlet {
 
     private static final String TAG = BaseServlet.class.getSimpleName();
     private Gson gson;
+    private static final String CHARACTER_ENCODING = "utf-8";
 
     @Override
     public void init() throws ServletException {
@@ -41,6 +42,8 @@ public class BaseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding(CHARACTER_ENCODING);
+        resp.setCharacterEncoding(CHARACTER_ENCODING);
         printParams(req);
     }
 

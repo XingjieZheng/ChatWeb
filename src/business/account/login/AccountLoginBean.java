@@ -1,7 +1,7 @@
 package business.account.login;
 
 
-import business.account.User;
+import hibernate.entity.User;
 import framework.BaseBean;
 
 import java.io.Serializable;

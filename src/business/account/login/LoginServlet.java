@@ -1,6 +1,7 @@
 package business.account.login;
 
-import business.account.User;
+import hibernate.dao.UserDao;
+import hibernate.entity.User;
 import framework.BaseBean;
 import framework.BaseCookiesServlet;
 import framework.BaseServlet;
@@ -32,35 +33,53 @@ public class LoginServlet extends BaseServlet {
 
         String account = getParamValue(req, PARAM_ACCOUNT);
         String password = getParamValue(req, PARAM_PASSWORD);
+        String message;
 
-        if (account != null && account.length() == 11 && "123456".equals(password)) {
-            String userId = account.substring(5, 11);
-            String token = RandomUtils.getRandomString(32);
-            Cookie cookieUserId = new Cookie(BaseCookiesServlet.COOKIE_USER_ID, userId);
-            Cookie cookieToken = new Cookie(BaseCookiesServlet.COOKIE_TOKEN, token);
-            resp.addCookie(cookieUserId);
-            resp.addCookie(cookieToken);
+        if (account != null && password != null) {
+            UserDao userDao = new UserDao();
+            User user = userDao.getUser(account);
+            if (user == null) {
+                message = "Error, account can not be find!";
+                responseError(resp, message);
+            } else {
+                if (!password.equals(user.getPassword())) {
+                    message = "Error, password is error!";
+                    responseError(resp, message);
+                } else {
+                    user.setPassword("");
+                    user.setCreateTime(0);
+                    String userId = String.valueOf(user.getId());
+                    String token = RandomUtils.getRandomString(32);
+                    Cookie cookieUserId = new Cookie(BaseCookiesServlet.COOKIE_USER_ID, userId);
+                    Cookie cookieToken = new Cookie(BaseCookiesServlet.COOKIE_TOKEN, token);
+                    resp.addCookie(cookieUserId);
+                    resp.addCookie(cookieToken);
 
-            AccountLoginBean accountLoginBean = new AccountLoginBean();
-            User user = new User(userId);
-            user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
-            user.setGender(2);
-            user.setUserName("bing");
-            accountLoginBean.setUser(user);
-            accountLoginBean.setAccount(account);
-            accountLoginBean.setStatus(BaseBean.STATUS_SUCCESS);
-            accountLoginBean.setRememberPassword(true);
-            accountLoginBean.setMsg("Login successfully!");
-            printWrite(resp, accountLoginBean);
+                    AccountLoginBean accountLoginBean = new AccountLoginBean();
+                    accountLoginBean.setUser(user);
+                    accountLoginBean.setAccount(account);
+                    accountLoginBean.setStatus(BaseBean.STATUS_SUCCESS);
+                    accountLoginBean.setRememberPassword(true);
+                    accountLoginBean.setMsg("Login successfully!");
+                    printWrite(resp, accountLoginBean);
+                }
+            }
         } else {
-            BaseBean baseBean = new BaseBean();
-            baseBean.setMsg("Error, account or password is error!");
-            baseBean.setStatus(BaseBean.STATUS_FAILED);
-            printWrite(resp, baseBean);
+            message = "Error, account and password can not be null!";
+            responseError(resp, message);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
+
+
+    private void responseError(HttpServletResponse resp, String message) {
+        BaseBean baseBean = new BaseBean();
+        baseBean.setMsg(message);
+        baseBean.setStatus(BaseBean.STATUS_FAILED);
+        printWrite(resp, baseBean);
+    }
+
 }

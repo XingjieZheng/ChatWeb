@@ -1,9 +1,6 @@
 package entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by xj
@@ -17,9 +14,18 @@ public class User {
     private String password;
     private int gender;
     private long createTime;
+    private String avatar;
+
+    public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
+    }
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -78,13 +84,24 @@ public class User {
         this.createTime = createTime;
     }
 
+    @Basic
+    @Column(name = "avatar")
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", account='" + account + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", password='" + password + '\'' +
-                ", gender=" + gender +
+                ", gender=" + gender + '\'' +
+                ", avatar=" + avatar + '\'' +
                 ", createTime='" + createTime + '\'' +
                 '}';
     }

@@ -1,14 +1,13 @@
 package test;
 
+import dao.UserDao;
 import entity.User;
+import util.HibernateUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.util.Map;
 
@@ -21,29 +20,30 @@ public class UserTest {
     private static SessionFactory sessionFactory;
     private static Session session;
 
-    static {
-        try {
-            //创建配置对象，获取hibernate.cfg.xml配置文件的信息
-            Configuration config = new Configuration().configure();
-            //创建服务注册对象，创建和销毁都相当耗费资源，通常一个系统内一个数据库只创建一个
-            ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
-            //创建会话工厂对象，类似于JDBC的Connection
-            sessionFactory = config.buildSessionFactory(serviceRegistry);
-        } catch (Throwable throwable) {
-            throw new ExceptionInInitializerError(throwable);
-        }
-
-    }
-
-
     public static void main(String[] args) {
-
-        //会话对象
-        session = sessionFactory.openSession();
-        addUser();
-        selectUser();
+        sessionFactory = HibernateUtils.getSessionFactory();
+        session = HibernateUtils.getSession();
+//        addUser();
+//        selectUser();
+//        findUser();
+        findUserByName("xiaoming");
         closeSession();
     }
+
+    private static void findUserByName(String name) {
+        UserDao userDao = new UserDao();
+        userDao.getUser(name);
+    }
+
+
+    private static void findUser() {
+        UserDao userDao = new UserDao();
+        User user = userDao.findById(2);
+        if (user != null) {
+            System.out.println(user.toString());
+        }
+    }
+
 
     private static void selectUser() {
         System.out.println("select all user");
@@ -63,13 +63,24 @@ public class UserTest {
         //开启事务
         Transaction transaction = session.beginTransaction();
         User user = new User();
-        user.setAccount("13713709077");
-        user.setId(1);
-        user.setNickName("xingjiezheng3");
+        user.setAccount("13713709078");
+//        user.setId(1);
+        user.setNickName("xingjiezheng");
         user.setPassword("123456");
         user.setCreateTime(System.currentTimeMillis());
         user.setGender(1);
+        user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
+
+        User user2 = new User();
+        user2.setAccount("13713709079");
+//        user2.setId(2);
+        user2.setNickName("xiaoming");
+        user2.setPassword("123456");
+        user2.setCreateTime(System.currentTimeMillis());
+        user2.setGender(2);
+        user2.setAvatar("http://coffeephoto.yuanlai.com/private/u/3a92/151d7c2155a.jpg");
         session.save(user); //保存对象进入数据库
+        session.save(user2);
         transaction.commit(); //提交事务
     }
 
