@@ -23,10 +23,10 @@ public class UserTest {
     public static void main(String[] args) {
         sessionFactory = HibernateUtils.getSessionFactory();
         session = HibernateUtils.getSession();
-//        addUser();
+        addUser();
 //        selectUser();
 //        findUser();
-        findUserByName("xiaoming");
+//        findUserByName("xiaoming");
         closeSession();
     }
 

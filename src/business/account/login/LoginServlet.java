@@ -1,7 +1,7 @@
 package business.account.login;
 
-import hibernate.dao.UserDao;
-import hibernate.entity.User;
+import dao.UserDao;
+import entity.User;
 import framework.BaseBean;
 import framework.BaseCookiesServlet;
 import framework.BaseServlet;
