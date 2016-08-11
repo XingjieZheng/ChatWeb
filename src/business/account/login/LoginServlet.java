@@ -74,12 +74,4 @@ public class LoginServlet extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
 
-
-    private void responseError(HttpServletResponse resp, String message) {
-        BaseBean baseBean = new BaseBean();
-        baseBean.setMsg(message);
-        baseBean.setStatus(BaseBean.STATUS_FAILED);
-        printWrite(resp, baseBean);
-    }
-
 }

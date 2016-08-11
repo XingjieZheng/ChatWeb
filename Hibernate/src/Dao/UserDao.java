@@ -24,4 +24,26 @@ public class UserDao extends BaseDao<User> {
         return user;
     }
 
+    public List<User> getUsers(List<Integer> usersIdList) {
+        if (usersIdList == null || usersIdList.size() <= 0) {
+            return null;
+        }
+        String userIdListString = "";
+        for (int id : usersIdList) {
+            userIdListString += (id + ",");
+        }
+        userIdListString = userIdListString.substring(0, userIdListString.length() - 1);
+        String hql = "from User where id in (" + userIdListString + ")";
+        System.out.println(hql);
+        List<User> users = findByHQL(hql);
+        if (users != null && users.size() > 0) {
+            for (User user : users) {
+                System.out.println(user.toString());
+            }
+        } else {
+            System.out.println("UserDao getUsers(usersIdList) is empty!");
+        }
+        return users;
+    }
+
 }

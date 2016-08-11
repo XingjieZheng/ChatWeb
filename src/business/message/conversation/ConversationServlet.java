@@ -1,8 +1,8 @@
 package business.message.conversation;
 
-import business.account.User;
 import business.message.Message;
 import business.message.list.MessageListBean;
+import entity.User;
 import framework.BaseCookiesServlet;
 
 import javax.servlet.ServletException;
@@ -29,14 +29,14 @@ public class ConversationServlet extends BaseCookiesServlet {
                 User user;
                 if (i % 2 == 0) {
                     message.setContent("Hello, boy!");
-                    user = new User(userId);
+                    user = new User(Integer.valueOf(userId));
                     user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
                 } else {
                     message.setContent("Hello, girl!");
-                    user = new User(theOtherUserId);
+                    user = new User(Integer.valueOf(theOtherUserId));
                     user.setAvatar("http://coffeephoto.yuanlai.com/private/u/3a92/151d7c2155a.jpg");
                 }
-                user.setUserName("user" + user.getUserId());
+                user.setNickName("user" + user.getId());
                 message.setTime(System.currentTimeMillis());
                 message.setUser(user);
                 messages.add(message);

@@ -1,13 +1,15 @@
 package business.account.contacts;
 
-import business.account.User;
+import dao.ContactsDao;
+import dao.UserDao;
+import entity.User;
 import framework.BaseCookiesServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xj
@@ -20,15 +22,12 @@ public class ContactsListServlet extends BaseCookiesServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
         if (getUserInfo(req)) {
+            ContactsDao contactsDao = new ContactsDao();
+            UserDao userDao = new UserDao();
+            List<Integer> contactsList = contactsDao.getContacts(userId);
+
             ContactsListBean contactsListBean = new ContactsListBean();
-            ArrayList<User> users = new ArrayList<>();
-            for (int i = 0; i < 15; i++) {
-                User user = new User((i + 100) + "");
-                user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
-                user.setGender(i % 2);
-                user.setUserName("user" + user.getUserId());
-                users.add(user);
-            }
+            List<User> users = userDao.getUsers(contactsList);
             contactsListBean.setUserArrayList(users);
             contactsListBean.setStatusSuccess();
             contactsListBean.setLastPage(true);

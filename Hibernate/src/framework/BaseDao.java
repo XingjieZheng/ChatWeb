@@ -18,6 +18,7 @@ import java.util.List;
 public class BaseDao<T> implements IDao<T> {
 
     private Class<T> entityClass;
+    protected final static int pageCount = 10;
 
     @SuppressWarnings("unchecked")
     public BaseDao() {
@@ -144,6 +145,8 @@ public class BaseDao<T> implements IDao<T> {
         return result;
     }
 
+
+
     @SuppressWarnings("unchecked")
     @Override
     public List<T> findByHQL(String hql, Object... params) {
@@ -173,6 +176,7 @@ public class BaseDao<T> implements IDao<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<T> findByHQL(String hql) {
         if (hql == null) {

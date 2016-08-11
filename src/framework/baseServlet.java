@@ -79,4 +79,11 @@ public class BaseServlet extends HttpServlet {
     protected void print(String msg) {
         System.out.println(TAG + " " + msg);
     }
+
+    protected void responseError(HttpServletResponse resp, String message) {
+        BaseBean baseBean = new BaseBean();
+        baseBean.setMsg(message);
+        baseBean.setStatus(BaseBean.STATUS_FAILED);
+        printWrite(resp, baseBean);
+    }
 }

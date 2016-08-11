@@ -13,8 +13,8 @@ public class User {
     private String account;
     private String password;
     private int gender;
-    private long createTime;
     private String avatar;
+    private long createTime;
 
     public User() {
     }
@@ -24,7 +24,6 @@ public class User {
     }
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;

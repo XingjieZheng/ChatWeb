@@ -1,7 +1,7 @@
 package business.message;
 
 
-import business.account.User;
+import entity.User;
 
 /**
  * Created by XingjieZheng

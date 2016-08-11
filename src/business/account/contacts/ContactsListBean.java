@@ -1,11 +1,11 @@
 package business.account.contacts;
 
 
-import business.account.User;
+import entity.User;
 import framework.BaseBean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 登录的初始信息
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class ContactsListBean extends BaseBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<User> userArrayList;
+    private List<User> userArrayList;
 
-    public void setUserArrayList(ArrayList<User> userArrayList) {
+    public void setUserArrayList(List<User> userArrayList) {
         this.userArrayList = userArrayList;
     }
 }
