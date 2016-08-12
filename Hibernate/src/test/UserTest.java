@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.metadata.ClassMetadata;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -67,7 +68,7 @@ public class UserTest {
 //        user.setId(1);
         user.setNickName("xingjiezheng");
         user.setPassword("123456");
-        user.setCreateTime(System.currentTimeMillis());
+        user.setCreateTime(new Date(System.currentTimeMillis()));
         user.setGender(1);
         user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
 
@@ -76,7 +77,7 @@ public class UserTest {
 //        user2.setId(2);
         user2.setNickName("xiaoming");
         user2.setPassword("123456");
-        user2.setCreateTime(System.currentTimeMillis());
+        user2.setCreateTime(new Date(System.currentTimeMillis()));
         user2.setGender(2);
         user2.setAvatar("http://coffeephoto.yuanlai.com/private/u/3a92/151d7c2155a.jpg");
         session.save(user); //保存对象进入数据库

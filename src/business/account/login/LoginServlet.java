@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by xj
@@ -46,8 +47,10 @@ public class LoginServlet extends BaseServlet {
                     message = "Error, password is error!";
                     responseError(resp, message);
                 } else {
+                    updateLoginState(user, userDao);
+
                     user.setPassword("");
-                    user.setCreateTime(0);
+                    user.setCreateTime(null);
                     String userId = String.valueOf(user.getId());
                     String token = RandomUtils.getRandomString(32);
                     Cookie cookieUserId = new Cookie(BaseCookiesServlet.COOKIE_USER_ID, userId);
@@ -72,6 +75,12 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    }
+
+    private void updateLoginState(User user, UserDao userDao) {
+        user.setLoginState(User.LOGIN_STATE_ONLINE);
+        user.setLoginTime(new Date(System.currentTimeMillis()));
+        userDao.update(user);
     }
 
 }

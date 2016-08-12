@@ -1,9 +1,11 @@
 package test.dao;
 
 import dao.UserDao;
+import entity.User;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,16 +23,17 @@ public class UserDaoTest {
 //            user.setAccount(String.valueOf(13713709070L + i));
 //            user.setNickName("xingjiezheng" + i);
 //            user.setPassword("123456");
-//            user.setCreateTime(System.currentTimeMillis());
+//            user.setCreateTime(new Date(System.currentTimeMillis()));
 //            user.setGender((i % 2) + 1);
 //            user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
 //            userDao.save(user);
 //        }
     }
 
+
     @Test
     public void getUser() {
-//        userDao.getUser("13713709070");
+        userDao.getUser("13713709070");
     }
 
     @Test
@@ -40,6 +43,20 @@ public class UserDaoTest {
         userIds.add(3);
         userIds.add(5);
         userDao.getUsers(userIds);
+    }
+
+    @Test
+    public void upDateLoginState() {
+        upDateLoginState(1, User.LOGIN_STATE_ONLINE);
+        upDateLoginState(2, User.LOGIN_STATE_ONLINE);
+        upDateLoginState(3, User.LOGIN_STATE_OUTLINE);
+    }
+
+    private void upDateLoginState(int userId, int state) {
+        User user = userDao.findById(userId);
+        user.setLoginTime(new Date(System.currentTimeMillis()));
+        user.setLoginState(state);
+        userDao.update(user);
     }
 
 }

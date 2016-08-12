@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by xj
@@ -8,13 +9,18 @@ import javax.persistence.*;
  */
 @Entity
 public class User {
+    public static final int LOGIN_STATE_OUTLINE = 1;
+    public static final int LOGIN_STATE_ONLINE = 2;
+
     private int id;
     private String nickName;
     private String account;
     private String password;
     private int gender;
     private String avatar;
-    private long createTime;
+    private Date createTime;
+    private int loginState;
+    private Date loginTime;
 
     public User() {
     }
@@ -75,11 +81,11 @@ public class User {
 
     @Basic
     @Column(name = "create_time")
-    public long getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -93,6 +99,26 @@ public class User {
         this.avatar = avatar;
     }
 
+    @Basic
+    @Column(name = "login_state")
+    public int getLoginState() {
+        return loginState;
+    }
+
+    public void setLoginState(int loginState) {
+        this.loginState = loginState;
+    }
+
+    @Basic
+    @Column(name = "login_time")
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
     public String toString() {
         return "User{" +
                 "id=" + id +
@@ -102,6 +128,8 @@ public class User {
                 ", gender=" + gender + '\'' +
                 ", avatar=" + avatar + '\'' +
                 ", createTime='" + createTime + '\'' +
+                ", loginState=" + loginState + '\'' +
+                ", loginTime='" + loginTime + '\'' +
                 '}';
     }
 }
