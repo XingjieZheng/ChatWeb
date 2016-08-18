@@ -1,5 +1,7 @@
 package entity;
 
+import framework.BaseToStringInstance;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,7 +10,7 @@ import java.util.Date;
  * on 2016/8/6.
  */
 @Entity
-public class User {
+public class User extends BaseToStringInstance {
     public static final int LOGIN_STATE_OUTLINE = 1;
     public static final int LOGIN_STATE_ONLINE = 2;
 
@@ -119,17 +121,4 @@ public class User {
         this.loginTime = loginTime;
     }
 
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", password='" + password + '\'' +
-                ", gender=" + gender + '\'' +
-                ", avatar=" + avatar + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", loginState=" + loginState + '\'' +
-                ", loginTime='" + loginTime + '\'' +
-                '}';
-    }
 }

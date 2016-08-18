@@ -85,5 +85,6 @@ public class BaseServlet extends HttpServlet {
         baseBean.setMsg(message);
         baseBean.setStatus(BaseBean.STATUS_FAILED);
         printWrite(resp, baseBean);
+        print(message);
     }
 }

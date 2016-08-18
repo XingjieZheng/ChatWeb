@@ -1,7 +1,6 @@
 package business.message.list;
 
-import business.message.Message;
-import entity.User;
+import business.message.MessageBean;
 import framework.BaseCookiesServlet;
 
 import javax.servlet.ServletException;
@@ -21,20 +20,20 @@ public class MessageListServlet extends BaseCookiesServlet {
         super.doPost(req, resp);
         if (getUserInfo(req)) {
             MessageListBean messageListBean = new MessageListBean();
-            ArrayList<Message> messages = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                Message message = new Message(String.valueOf(i + 1));
-                message.setContent("Hello, boy!");
-                message.setTime(System.currentTimeMillis());
-                message.setUnReadCount(i % 2 + 1);
-                User user = new User();
-                user.setId(i + 700000);
-                user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
-                user.setGender(i % 2);
-                user.setNickName("user" + user.getId());
-                message.setUser(user);
-                messages.add(message);
-            }
+            ArrayList<MessageBean> messages = new ArrayList<>();
+//            for (int i = 0; i < 3; i++) {
+//                MessageBean message = new MessageBean(String.valueOf(i + 1));
+//                message.setContent("Hello, boy!");
+//                message.setTime(System.currentTimeMillis());
+//                message.setUnReadCount(i % 2 + 1);
+//                User user = new User();
+//                user.setId(i + 700000);
+//                user.setAvatar("http://coffeephoto.yuanlai.com/private/u/4c72/15286c200af.jpg");
+//                user.setGender(i % 2);
+//                user.setNickName("user" + user.getId());
+//                message.setSender(user);
+//                messages.add(message);
+//            }
             messageListBean.setMessageArrayList(messages);
             messageListBean.setStatusSuccess();
             messageListBean.setLastPage(true);

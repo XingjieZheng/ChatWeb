@@ -13,26 +13,25 @@ import java.util.List;
 public class ContactsDao extends BaseDao<Contacts> {
 
 
-    public List<Integer> getContacts(String userId) {
-        int uId = Integer.valueOf(userId);
+    public List<Integer> getContacts(int userId) {
         List<Integer> list = null;
         String hql = "from  Contacts " +
-                "where user_id=\'" + uId + "\' or contact_user_id=\'" + uId + "\'";
+                "where user_id=\'" + userId + "\' or contact_user_id=\'" + userId + "\'";
         System.out.println(hql);
         List<Contacts> contacts = findByHQL(hql);
         if (contacts != null && contacts.size() > 0) {
             list = new ArrayList<>();
             for (Contacts temp : contacts) {
-                if (uId == temp.getUserId() && !list.contains(temp.getContactUserId())) {
+                if (userId == temp.getUserId() && !list.contains(temp.getContactUserId())) {
                     list.add(temp.getContactUserId());
-                } else if (uId == temp.getContactUserId() && !list.contains(temp.getUserId())) {
+                } else if (userId == temp.getContactUserId() && !list.contains(temp.getUserId())) {
                     list.add(temp.getUserId());
                 }
                 System.out.print(temp.toString());
             }
             System.out.println();
         } else {
-            System.out.println("ContactsDao getContacts(" + uId + ") is empty!");
+            System.out.println("ContactsDao getContacts(" + userId + ") is empty!");
         }
         return list;
     }

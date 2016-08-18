@@ -1,20 +1,23 @@
 package entity;
 
+import framework.BaseToStringInstance;
+
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by xj
  * on 2016/8/9.
  */
 @Entity
-public class Contacts {
+public class Contacts extends BaseToStringInstance {
 
     public static final int STATE_NORMAL_FRIEND = 1;
 
     private int id;
     private int userId;
     private int contactUserId;
-    private long createTime;
+    private Date createTime;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,16 +40,6 @@ public class Contacts {
     }
 
     @Basic
-    @Column(name = "create_time")
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    @Basic
     @Column(name = "contact_user_id")
     public int getContactUserId() {
         return contactUserId;
@@ -56,12 +49,14 @@ public class Contacts {
         this.contactUserId = contactUserId;
     }
 
-    public String toString() {
-        return "Contacts{" +
-                "userId=" + userId +
-                ", contactUserId='" + contactUserId + '\'' +
-                ", createTime='" + createTime + '\'' +
-                '}';
+    @Basic
+    @Column(name = "create_time")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
 }

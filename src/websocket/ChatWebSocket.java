@@ -1,13 +1,17 @@
 package websocket;
 
 import com.google.gson.Gson;
+import dao.UserDao;
+import entity.SampleUser;
+import entity.User;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
-import static websocket.MessageBean.FIELD_AND_VALUE_IN_SECURITY_KEY;
+import static websocket.CommunicationMessageBean.FIELD_AND_VALUE_IN_SECURITY_KEY;
 
 /**
  * Created by xj
@@ -16,75 +20,95 @@ import static websocket.MessageBean.FIELD_AND_VALUE_IN_SECURITY_KEY;
 @ServerEndpoint(value = "/websocket", configurator = GetHttpSessionConfigurator.class)
 public class ChatWebSocket {
 
+    private static final String TAG = ChatWebSocket.class.getSimpleName();
+
     private static int onlineCount = 0;
 
-    private static HashMap<String, ChatWebSocket> userWebSocketMap = new HashMap<>();
+    private static HashMap<Integer, ChatWebSocket> userWebSocketMap = new HashMap<>();
 
     private Session session;
-    private String userId;
+    private int userId;
 
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
         addOnlineCount();
-        System.out.println("new connection, online count is " + getOnlineCount());
+        print("new connection, online count is " + getOnlineCount());
     }
 
     @OnClose
     public void onClose() {
         userWebSocketMap.remove(userId);
         subOnlineCount();
-        System.out.println("some one out, online count is " + getOnlineCount());
+        UserDao userDao = new UserDao();
+        userDao.updateUserLoginState(userId, User.LOGIN_STATE_OUTLINE);
+        print("User(" + userId + ") login out, online count is " + getOnlineCount());
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        System.out.println("error: " + error.toString());
+        print("error: " + error.toString());
         error.printStackTrace();
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("message from client" + message);
+        print("message from client" + message);
 
         try {
             Gson gson = new Gson();
-            MessageBean messageBean = gson.fromJson(message, MessageBean.class);
+            CommunicationMessageBean messageBean = gson.fromJson(message, CommunicationMessageBean.class);
             if (messageBean != null && messageBean.isDataValid()) {
-                userId = messageBean.getSenderUserId();
+                userId = messageBean.getMessage().getSender().getId();
                 if (messageBean.isRegisterMessage()) {
-                    if (userWebSocketMap.containsKey(messageBean.getSenderUserId())) {
-                        userWebSocketMap.replace(messageBean.getSenderUserId(), this);
-                    } else {
-                        userWebSocketMap.put(messageBean.getSenderUserId(), this);
+                    UserDao userDao = new UserDao();
+                    if (!userDao.updateUserLoginState(userId, User.LOGIN_STATE_ONLINE)) {
+                        printAndSendMessage("User(" + userId + ") can not be find!");
+                        return;
                     }
-                    sendMessage("connect successfully!");
-                    System.out.println("base message come from user(" + userId + ")");
+                    if (userWebSocketMap.containsKey(userId)) {
+                        userWebSocketMap.replace(userId, this);
+                    } else {
+                        userWebSocketMap.put(userId, this);
+                    }
+                    sendMessage("User(" + userId + ") connects successfully!");
+
                 } else if (messageBean.isNormalMessage()) {
-                    messageBean.setTime(System.currentTimeMillis());
-                    ChatWebSocket receiverWebSocket = userWebSocketMap.get(messageBean.getReceiverUserId());
-
-                    String sendMessageJson = gson.toJson(messageBean);
-                    if (sendMessageJson.contains(FIELD_AND_VALUE_IN_SECURITY_KEY)) {
-                        sendMessageJson = sendMessageJson.replace(FIELD_AND_VALUE_IN_SECURITY_KEY, "");
+                    int receiverUserId = messageBean.getMessage().getReceiver().getId();
+                    int senderUserId =  messageBean.getMessage().getSender().getId();
+                    messageBean.getMessage().setTime(new Date(System.currentTimeMillis()));
+                    UserDao userDao = new UserDao();
+                    SampleUser senderUser = userDao.findSampleUserById(senderUserId);
+                    if (senderUser == null) {
+                        printAndSendMessage("Sender user(" + receiverUserId + ") can not be find!");
+                        return;
                     }
-
+                    SampleUser receiverUser = userDao.findSampleUserById(receiverUserId);
+                    if (receiverUser == null) {
+                        printAndSendMessage("Receiver user(" + receiverUserId + ") can not be find!");
+                        return;
+                    }
+                    ChatWebSocket receiverWebSocket = userWebSocketMap.get(receiverUserId);
                     if (receiverWebSocket != null) {
+                        messageBean.getMessage().setSender(senderUser);
+                        String sendMessageJson = gson.toJson(messageBean);
+                        if (sendMessageJson.contains(FIELD_AND_VALUE_IN_SECURITY_KEY)) {
+                            sendMessageJson = sendMessageJson.replace(FIELD_AND_VALUE_IN_SECURITY_KEY, "");
+                        }
                         receiverWebSocket.sendMessage(sendMessageJson);
-                        System.out.println("User(" + userId + ") send " + message + " to user(" + messageBean.getReceiverUserId() + ") successfully.");
+                        print("User(" + userId + ") send " + message + " to user(" + receiverUserId + ") successfully.");
                     } else {
-                        sendMessage("receiver (userId:" + messageBean.getReceiverUserId() + ") does not connect to the server!");
-                        System.out.println("error: receiver (userId:" + messageBean.getReceiverUserId() + ") does not connect to the server!");
+                        printAndSendMessage("receiver (userId:" + receiverUserId + ") does not connect to the server!");
                     }
                 } else {
-                    printErrorMessage();
+                    printAndSendErrorMessage();
                 }
             } else {
-                printErrorMessage();
+                printAndSendErrorMessage();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            printErrorMessage();
+            printAndSendErrorMessage();
         }
     }
 
@@ -108,9 +132,16 @@ public class ChatWebSocket {
         ChatWebSocket.onlineCount--;
     }
 
-    private void printErrorMessage() {
-        String errorMessage = "error message!";
-        System.out.println(errorMessage);
-        sendMessage(errorMessage);
+    private void printAndSendErrorMessage() {
+        printAndSendMessage("Error message!");
+    }
+
+    private void printAndSendMessage(String message) {
+        print(message);
+        sendMessage(message);
+    }
+
+    private void print(String message) {
+        System.out.println(TAG + "  " + message);
     }
 }

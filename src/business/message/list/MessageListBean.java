@@ -1,7 +1,7 @@
 package business.message.list;
 
 
-import business.message.Message;
+import business.message.MessageBean;
 import framework.BaseBean;
 
 import java.io.Serializable;
@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class MessageListBean extends BaseBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<Message> messageArrayList;
+    private ArrayList<MessageBean> messageArrayList;
 
-    public ArrayList<Message> getMessageArrayList() {
+    public ArrayList<MessageBean> getMessageArrayList() {
         return messageArrayList;
     }
 
-    public void setMessageArrayList(ArrayList<Message> messageArrayList) {
+    public void setMessageArrayList(ArrayList<MessageBean> messageArrayList) {
         this.messageArrayList = messageArrayList;
     }
 }
