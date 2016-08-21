@@ -1,8 +1,10 @@
 package dao;
 
+import entity.SampleUser;
 import entity.User;
 import framework.BaseDao;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -46,4 +48,26 @@ public class UserDao extends BaseDao<User> {
         return users;
     }
 
+    public SampleUser findSampleUserById(Serializable id) {
+        User user = findById(id);
+        if (user != null) {
+            System.out.println(user.toString());
+            return new SampleUser(user);
+        } else {
+            System.out.println("UserDao findSampleUserById(" + id + ") is empty!");
+            return null;
+        }
+    }
+
+    public boolean updateUserLoginState(int id, int state) {
+        User user = findById(id);
+        if (user == null) {
+            System.out.println("UserDao updateUserLoginState(" + id + ", " + state + ") is fail !");
+            return false;
+        } else {
+            user.setLoginState(state);
+            save(user);
+            return true;
+        }
+    }
 }

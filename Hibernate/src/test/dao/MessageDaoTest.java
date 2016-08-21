@@ -20,6 +20,10 @@ public class MessageDaoTest {
 //        addMessage(2, 3, "hi 6");
 //        addMessage(5, 2, "hello 5");
 //        addMessage(2, 4, "hi 4");
+//        addMessage(1, 2, "hello 1");
+//        addMessage(2, 1, "hi 1");
+//        addMessage(1, 2, "hello 2");
+//        addMessage(2, 1, "hi 2");
     }
 
     private Message addMessage(int senderId, int receiverId, String content) {

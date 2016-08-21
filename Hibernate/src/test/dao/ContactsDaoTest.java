@@ -18,10 +18,10 @@ public class ContactsDaoTest {
 
     @Before
     public void addContacts() {
-//        addContacts(4, 1);
-//        addContacts(6, 1);
-//        addContacts(4, 3);
-//        addContacts(1, 2);
+        addContacts(4, 1);
+        addContacts(6, 1);
+        addContacts(4, 3);
+        addContacts(1, 2);
 
     }
 
