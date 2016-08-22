@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 public class Message extends BaseToStringInstance {
 
-    public static final int STATE_READED = 1;
+    public static final int STATE_READ = 1;
     public static final int STATE_UNREAD = 2;
 
     private int id;

@@ -36,7 +36,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="mysql-connector-java-5.1.35-bin" level="project" />
-    <orderEntry type="module" module-name="ChatWeb" />
     <orderEntry type="module-library">
       <library name="JUnit4">
         <CLASSES>

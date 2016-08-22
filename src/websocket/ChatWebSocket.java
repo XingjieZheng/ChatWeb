@@ -1,7 +1,9 @@
 package websocket;
 
 import com.google.gson.Gson;
+import dao.MessageDao;
 import dao.UserDao;
+import entity.Message;
 import entity.SampleUser;
 import entity.User;
 
@@ -75,7 +77,7 @@ public class ChatWebSocket {
 
                 } else if (messageBean.isNormalMessage()) {
                     int receiverUserId = messageBean.getMessage().getReceiver().getId();
-                    int senderUserId =  messageBean.getMessage().getSender().getId();
+                    int senderUserId = messageBean.getMessage().getSender().getId();
                     messageBean.getMessage().setTime(new Date(System.currentTimeMillis()));
                     UserDao userDao = new UserDao();
                     SampleUser senderUser = userDao.findSampleUserById(senderUserId);
@@ -96,9 +98,12 @@ public class ChatWebSocket {
                             sendMessageJson = sendMessageJson.replace(FIELD_AND_VALUE_IN_SECURITY_KEY, "");
                         }
                         receiverWebSocket.sendMessage(sendMessageJson);
+                        saveMessageInDB(senderUserId, receiverUserId, messageBean.getMessage().getContent(), Message.STATE_READ);
                         print("User(" + userId + ") send " + message + " to user(" + receiverUserId + ") successfully.");
                     } else {
-                        printAndSendMessage("receiver (userId:" + receiverUserId + ") does not connect to the server!");
+                        //save unread message in db
+                        saveMessageInDB(senderUserId, receiverUserId, messageBean.getMessage().getContent(), Message.STATE_UNREAD);
+                        //printAndSendMessage("receiver (userId:" + receiverUserId + ") does not connect to the server!");
                     }
                 } else {
                     printAndSendErrorMessage();
@@ -143,5 +148,16 @@ public class ChatWebSocket {
 
     private void print(String message) {
         System.out.println(TAG + "  " + message);
+    }
+
+    private void saveMessageInDB(int senderUserId, int receiverUserId, String message, int readState) {
+        MessageDao messageDao = new MessageDao();
+        entity.Message entityMessage = new entity.Message();
+        entityMessage.setSenderId(senderUserId);
+        entityMessage.setReceiverId(receiverUserId);
+        entityMessage.setContent(message);
+        entityMessage.setReadState(readState);
+        entityMessage.setTime(new Date(System.currentTimeMillis()));
+        messageDao.save(entityMessage);
     }
 }

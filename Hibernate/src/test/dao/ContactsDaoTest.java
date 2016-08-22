@@ -1,11 +1,8 @@
 package test.dao;
 
 import dao.ContactsDao;
-import entity.Contacts;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,23 +13,20 @@ public class ContactsDaoTest {
 
     private static ContactsDao contactsDao = new ContactsDao();
 
-    @Before
+    @Test
     public void addContacts() {
-        addContacts(4, 1);
-        addContacts(6, 1);
-        addContacts(4, 3);
-        addContacts(1, 2);
-
+        contactsDao.addFriend(1, 2);
     }
 
-    private void addContacts(int userId, int contactsUserId) {
-        Contacts contacts = new Contacts();
-        contacts.setUserId(userId);
-        contacts.setContactUserId(contactsUserId);
-        contacts.setCreateTime(new Date(System.currentTimeMillis()));
-        contactsDao.save(contacts);
+    @Test
+    public void pullBack() {
+        contactsDao.pullBlack(1, 3);
     }
 
+    @Test
+    public void removeBack() {
+        contactsDao.removeBlack(1, 3);
+    }
 
     @Test
     public void getContacts() {
@@ -41,5 +35,6 @@ public class ContactsDaoTest {
             System.out.println(userId);
         }
     }
+
 
 }

@@ -46,5 +46,6 @@ public class MessageBean extends Message implements Serializable {
         setReceiverId(message.getReceiverId());
         setReadState(message.getReadState());
         setTime(message.getTime());
+        setId(message.getId());
     }
 }
