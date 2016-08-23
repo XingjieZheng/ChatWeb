@@ -65,7 +65,7 @@ public class UserDao extends BaseDao<User> {
             return false;
         } else {
             user.setLoginState(state);
-            save(user);
+            update(user);
             return true;
         }
     }

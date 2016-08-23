@@ -1,6 +1,6 @@
 package framework;
 
-public class BaseBean {
+public class BaseBean extends BaseToStringInstance {
     /**
      * 任务执行成功(true)
      */
@@ -37,15 +37,4 @@ public class BaseBean {
         this.status = STATUS_FAILED;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder beanString = new StringBuilder();
-        beanString.append("status=");
-        beanString.append(status);
-        beanString.append(", msg=");
-        beanString.append(msg);
-        beanString.append(", isLastPage=");
-        beanString.append(isLastPage);
-        return beanString.toString();
-    }
 }

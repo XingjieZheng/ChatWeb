@@ -11,6 +11,7 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/account/login.do</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ContactsListServlet</servlet-name>
         <servlet-class>business.account.contacts.ContactsListServlet</servlet-class>
@@ -19,6 +20,16 @@
         <servlet-name>ContactsListServlet</servlet-name>
         <url-pattern>/contacts/getContacts.do</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RequestBecomeContactsServlet</servlet-name>
+        <servlet-class>business.account.contacts.add.RequestBecomeContactsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RequestBecomeContactsServlet</servlet-name>
+        <url-pattern>/contacts/requestBecomeContacts.do</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>MessageListServlet</servlet-name>
         <servlet-class>business.message.list.MessageListServlet</servlet-class>
@@ -27,6 +38,7 @@
         <servlet-name>MessageListServlet</servlet-name>
         <url-pattern>/message/getMessage.do</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>ConversationServlet</servlet-name>
         <servlet-class>business.message.conversation.ConversationServlet</servlet-class>
@@ -34,5 +46,14 @@
     <servlet-mapping>
         <servlet-name>ConversationServlet</servlet-name>
         <url-pattern>/message/getConversation.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <servlet-class>business.account.user.SearchUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <url-pattern>/user/searchUser.do</url-pattern>
     </servlet-mapping>
 </web-app>

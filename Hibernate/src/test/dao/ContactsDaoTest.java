@@ -13,10 +13,13 @@ public class ContactsDaoTest {
 
     private static ContactsDao contactsDao = new ContactsDao();
 
-    @Test
-    public void addContacts() {
-        contactsDao.addFriend(1, 2);
-    }
+//    @Test
+//    public void addBothContacts() {
+//        contactsDao.addBothContacts(1, 2);
+//        contactsDao.addBothContacts(3, 1);
+//        contactsDao.addBothContacts(1, 4);
+//        contactsDao.addBothContacts(2, 4);
+//    }
 
     @Test
     public void pullBack() {
@@ -31,8 +34,10 @@ public class ContactsDaoTest {
     @Test
     public void getContacts() {
         List<Integer> list = contactsDao.getContacts(1);
-        for (int userId : list) {
-            System.out.println(userId);
+        if (list != null) {
+            for (int userId : list) {
+                System.out.println(userId);
+            }
         }
     }
 

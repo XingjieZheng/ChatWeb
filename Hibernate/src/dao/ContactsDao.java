@@ -19,9 +19,9 @@ public class ContactsDao extends BaseDao<Contacts> {
 
     public List<Integer> getContacts(int userId) {
         List<Integer> list = null;
-        String hql = "from  Contacts " +
-                "where (user_id=" + userId + " or contact_user_id=" + userId + ") " +
-                "and state=" + Contacts.STATE_IS_FRIEND;
+        String hql = "from  Contacts" +
+                " where user_id=" + userId +
+                " and state=" + Contacts.STATE_IS_FRIEND;
         System.out.println(hql);
         List<Contacts> contacts = findByHQL(hql);
         if (contacts != null && contacts.size() > 0) {
@@ -32,7 +32,7 @@ public class ContactsDao extends BaseDao<Contacts> {
                 } else if (userId == temp.getContactUserId() && !list.contains(temp.getUserId())) {
                     list.add(temp.getUserId());
                 }
-                System.out.print(temp.toString());
+                System.out.println(temp.toString());
             }
             System.out.println();
         } else {
@@ -102,7 +102,12 @@ public class ContactsDao extends BaseDao<Contacts> {
         }
     }
 
-    public void addFriend(int userId, int contactUserId) {
+    public void addBothContacts(int userId, int contactUserId) {
+        addContacts(userId, contactUserId);
+        addContacts(contactUserId, userId);
+    }
+
+    private void addContacts(int userId, int contactUserId) {
         String hql = "from  Contacts" +
                 " where user_id=" + userId + " and contact_user_id=" + contactUserId;
         System.out.println(hql);
@@ -134,5 +139,9 @@ public class ContactsDao extends BaseDao<Contacts> {
             contacts = contactsList.get(0);
         }
         return contacts;
+    }
+
+    public void requestBecomeContacts() {
+        
     }
 }

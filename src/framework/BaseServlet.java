@@ -87,4 +87,12 @@ public class BaseServlet extends HttpServlet {
         printWrite(resp, baseBean);
         print(message);
     }
+
+    protected void responseSuccessfully(HttpServletResponse resp, String message) {
+        BaseBean baseBean = new BaseBean();
+        baseBean.setMsg(message);
+        baseBean.setStatus(BaseBean.STATUS_SUCCESS);
+        printWrite(resp, baseBean);
+        print(message);
+    }
 }

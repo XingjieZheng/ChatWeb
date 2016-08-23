@@ -1,7 +1,10 @@
 package test.dao;
 
 import dao.UserDao;
+import entity.User;
 import org.junit.Test;
+
+import java.util.Date;
 
 /**
  * Created by xj
@@ -40,23 +43,23 @@ public class UserDaoTest {
 //        userDao.getUsers(userIds);
 //    }
 //
-//    @Test
-//    public void upDateLoginState() {
-//        upDateLoginState(1, User.LOGIN_STATE_ONLINE);
-//        upDateLoginState(2, User.LOGIN_STATE_ONLINE);
-//        upDateLoginState(3, User.LOGIN_STATE_OUTLINE);
-//    }
-//
-//    private void upDateLoginState(int userId, int state) {
-//        User user = userDao.findById(userId);
-//        user.setLoginTime(new Date(System.currentTimeMillis()));
-//        user.setLoginState(state);
-//        userDao.update(user);
-//    }
-
     @Test
-    public void getUserSimpleInfo() {
-        userDao.findSampleUserById(1);
+    public void upDateLoginState() {
+        upDateLoginState(1, User.LOGIN_STATE_ONLINE);
+        upDateLoginState(2, User.LOGIN_STATE_ONLINE);
+        upDateLoginState(3, User.LOGIN_STATE_OUTLINE);
     }
+
+    private void upDateLoginState(int userId, int state) {
+        User user = userDao.findById(userId);
+        user.setLoginTime(new Date(System.currentTimeMillis()));
+        user.setLoginState(state);
+        userDao.update(user);
+    }
+
+//    @Test
+//    public void getUserSimpleInfo() {
+//        userDao.findSampleUserById(1);
+//    }
 
 }
