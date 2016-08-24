@@ -28,6 +28,11 @@ public class RequestBecomeContactsServlet extends BaseCookiesServlet {
             return;
         }
         if (getUserInfo(req)) {
+            if (userId == requestedUserId) {
+                responseError(resp, "Error, requestedUserId(" + requestedUserIdS + ") exception." +
+                        " You can not add yourself into contacts.");
+                return;
+            }
             RequestBecomeContactsDao requestBecomeContactsDao = new RequestBecomeContactsDao();
             requestBecomeContactsDao.requestBecomeContacts(userId, requestedUserId);
             responseSuccessfully(resp, "Request user(" + userId + ") become contacts successfully!");
